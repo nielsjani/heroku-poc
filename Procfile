@@ -1,0 +1,1 @@
+web: java -jar target/habitar-1.0.jar
