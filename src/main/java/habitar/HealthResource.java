@@ -13,6 +13,6 @@ public class HealthResource {
 
     @RequestMapping(method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     public HealthDto getHealth() {
-        return healthDto().withHealthStatus("UP").withMood("Happy");
+        return healthDto().withHealthStatus("UP").withMood("Gloomy");
     }
 }
