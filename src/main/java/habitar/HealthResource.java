@@ -1,12 +1,6 @@
 package habitar;
 
-import ch.qos.logback.core.db.dialect.PostgreSQLDialect;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import org.postgresql.jdbc2.optional.SimpleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +42,19 @@ public class HealthResource {
                 output.add("Read from DB: " + rs.getTimestamp("tick"));
             }
             healthDto.withMood(output.stream().collect(Collectors.joining(",")));
+        } catch (Exception e){
+            System.out.println("ERROR");
+            System.out.println(e);
+        }
+        return healthDto;
+    }
+
+    @RequestMapping(path = "/resetdb", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
+    public HealthDto resetDb() {
+        HealthDto healthDto = healthDto().withHealthStatus("UP");
+        try (Connection connection = dataSource.getConnection()) {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("DROP TABLE ticks");
         } catch (Exception e){
             System.out.println("ERROR");
             System.out.println(e);
