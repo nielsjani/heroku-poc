@@ -6,6 +6,7 @@ public class Migrator {
     public static void main(String[] args) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(getDatasourceUrl(), getUsername(), getPassword());
+        //Only uncomment when you dont have a schema_version db table yet locally
 //        flyway.baseline();
         flyway.migrate();
     }
