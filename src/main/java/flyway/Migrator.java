@@ -6,7 +6,7 @@ public class Migrator {
     public static void main(String[] args) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(getDatasourceUrl(), getUsername(), getPassword());
-        flyway.baseline();
+//        flyway.baseline();
         flyway.migrate();
     }
 
